@@ -1,0 +1,41 @@
+<body> <!-- an overall plugin container panel -->
+    <pad> <!-- adds whitespace padding -->
+        <hc> <!-- horizontal container -->
+            <bind:collection bind="users" id="users">
+                <dt bind="__items">
+                    <dtr header="True">
+                        <dth width="1%" />
+                        <dth width="1%" text="{UserID}" />
+                        <dth width="260" text="{Username}" />
+                        <dth width="1%" text="{Channel}" />
+                        <dth width="1%" text="{Actions}" />
+                    </dtr>
+                </dt>
+                <bind:template>
+                    <dtr>
+                        <dtd><icon bind="icon" /></dtd>
+                        <dtd><label bind="uid" /></dtd>
+                        <dtd><label bind="username" /></dtd>
+                        <dtd><label bind="channel" /></dtd>
+                        <dtd>
+                            <hc>
+                                <tooltip text="{Information}">
+                                    <button id="info" icon="info" style="mini" />
+                                </tooltip>
+                                <tooltip text="{Poke}">
+                                    <button id="poke" icon="exclamation" style="mini" />
+                                </tooltip>
+                                <tooltip text="{Kick}">
+                                    <button id="kick" icon="bolt" style="mini" />
+                                </tooltip>
+                                <tooltip text="{Ban}">
+                                    <button id="ban" icon="remove" style="mini" />
+                                </tooltip>
+                            </hc>
+                        </dtd>
+                    </dtr>
+                </bind:template>
+            </bind:collection>
+        </hc>
+    </pad>
+</body>

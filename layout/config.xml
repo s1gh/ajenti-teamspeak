@@ -1,0 +1,15 @@
+<box>
+    <vc binder:context="classconfig">
+        <formline text="{Management address}">
+            <tooltip text="{host:port}">
+                <textbox bind="[addr]" />
+            </tooltip>
+        </formline>
+        <formline text="{Username}">
+            <textbox bind="[username]" />
+        </formline>
+        <formline text="{Password}">
+            <passwordbox bind="[password]" />
+        </formline>
+    </vc>
+</box>
