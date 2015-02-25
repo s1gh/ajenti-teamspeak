@@ -1,6 +1,5 @@
 <body> <!-- an overall plugin container panel -->
     <pad> <!-- adds whitespace padding -->
-        <hc> <!-- horizontal container -->
             <bind:collection bind="users" id="users">
                 <dt bind="__items">
                     <dtr header="True">
@@ -36,6 +35,5 @@
                     </dtr>
                 </bind:template>
             </bind:collection>
-        </hc>
     </pad>
 </body>
