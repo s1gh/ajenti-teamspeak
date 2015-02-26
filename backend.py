@@ -10,6 +10,16 @@ class User(object):
         self.uid = userid
         self.icon = icon
 
+
+class Server(object):
+    def __init__(self, version, host, climax, stat, icon):
+        self.version = version
+        self.hostname = host
+        self.clientsmax = climax
+        self.status = stat
+        self.icon = icon
+
+
 @plugin
 class TeamspeakClassConfigEditor(ClassConfigEditor):
     title = 'Teamspeak'
@@ -33,11 +43,19 @@ class TeamspeakBackend(BasePlugin):
             raise Exception('No address specified!')
 
         try:
-            self._connection = ts3.TS3Server(addr[0], int(addr[1]))  # Stupid casting (Needs to be done though)
+            self._connection = ts3.TS3Server(addr[0], int(addr[1]))
             self._connection.login(username, password)
             self._connection.use(1)
         except Exception as err:
             raise Exception(str(err))
+
+    def serverinfo(self):
+        server = (self._connection.send_command('serverinfo')).data[0]
+        icon = 'check' if server['virtualserver_status'] == 'online' else 'remove'
+
+        serverinfo = [Server(server['virtualserver_version'], server['virtualserver_name'],
+                             server['virtualserver_maxclients'], server['virtualserver_status'], icon)]
+        return serverinfo
 
     def clientlist(self):
         clients = self._connection.clientlist()
@@ -45,7 +63,6 @@ class TeamspeakBackend(BasePlugin):
 
         for key, client in clients.iteritems():
             clients_dic.append(User(client['client_nickname'], client['cid'], client['clid']))
-
         return clients_dic
 
     def channellist(self):

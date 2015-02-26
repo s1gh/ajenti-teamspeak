@@ -16,6 +16,7 @@ class Teamspeak(SectionPlugin):
         self.append(self.ui.inflate('teamspeak3:main'))
         self.backend = TeamspeakBackend.get()
         self.users = []
+        self.servers = []
         self.binder = Binder(self, self)
 
         def post_item_bind(object, collection, item, ui):
@@ -45,4 +46,5 @@ class Teamspeak(SectionPlugin):
 
         self.binder.update()
         self.users = self.backend.clientlist()
+        self.servers = self.backend.serverinfo()
         self.binder.populate()
