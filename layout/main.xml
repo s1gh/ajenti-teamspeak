@@ -41,29 +41,33 @@
         </tab>
         <tab title="Banned Clients">
             <pad> <!-- adds whitespace padding -->
-                    <bind:collection bind="banned_clients" id="banned_clients">
+                    <bind:collection bind="banlist" id="banlist">
                         <dt bind="__items">
                             <dtr header="True">
                                 <dth width="1%" />
-                                <dth width="30%" text="{IP Address}" />
-                                <dth text="{Username}" />
+                                <dth width="30%" text="{Username}" />
+                                <dth width="1%" text="{BanID}" />
+                                <dth text="{Banned By}" />
                                 <dth text="{Timestamp}" />
+                                <dth width="5%" text="{Duration}" />
                                 <dth width="10%" text="{Actions}" />
                             </dtr>
                         </dt>
                         <bind:template>
                             <dtr>
                                 <dtd><icon bind="icon" /></dtd>
-                                <dtd><label bind="banned_ip" /></dtd>
-                                <dtd><label bind="banned_user" /></dtd>
-                                <dtd><label bind="timestamp" /></dtd>
+                                <dtd><label bind="banuser" /></dtd>
+                                <dtd><label bind="banid" /></dtd>
+                                <dtd><label bind="banby" /></dtd>
+                                <dtd><label bind="bantimestamp" /></dtd>
+                                <dtd><label bind="banduration" /></dtd>
                                 <dtd>
                                     <hc>
                                         <tooltip text="{Information}">
                                             <button id="info_client" icon="info" style="mini" />
                                         </tooltip>
                                         <tooltip text="{Unban}">
-                                            <button id="unban" icon="exclamation" style="mini" />
+                                            <button id="unban" icon="remove" style="mini" />
                                         </tooltip>
                                     </hc>
                                 </dtd>

@@ -20,6 +20,15 @@ class Server(object):
         self.icon = icon
 
 
+class BannedUser(object):
+    def __init__(self, id, user, by, time, duration, icon='user'):
+        self.banid = id
+        self.banuser = user
+        self.banby = by
+        self.bantimestamp = time
+        self.banduration = duration
+        self.icon = icon
+
 @plugin
 class TeamspeakClassConfigEditor(ClassConfigEditor):
     title = 'Teamspeak'
@@ -50,12 +59,28 @@ class TeamspeakBackend(BasePlugin):
             raise Exception(str(err))
 
     def serverinfo(self):
-        server = (self._connection.send_command('serverinfo')).data[0]
+        server = (self._connection.send_command('serverinfo')).data[0]  # @todo Maybe add support for multiple servers?
         icon = 'check' if server['virtualserver_status'] == 'online' else 'remove'
 
         serverinfo = [Server(server['virtualserver_version'], server['virtualserver_name'],
                              server['virtualserver_maxclients'], server['virtualserver_status'], icon)]
         return serverinfo
+
+    def banlist(self):
+        clients = (self._connection.send_command('banlist')).data
+        clients_dic = []
+
+        try:
+            for user in clients:
+                clients_dic.append(BannedUser(user['banid'], user['name'], user['invokeruid'], user['created'], user['duration']))
+        except KeyError:
+            pass
+        finally:
+            return clients_dic
+
+    def channellist(self):
+        channels = self._connection.send_command('channellist')
+        return channels
 
     def clientlist(self):
         clients = self._connection.clientlist()
@@ -65,14 +90,18 @@ class TeamspeakBackend(BasePlugin):
             clients_dic.append(User(client['client_nickname'], client['cid'], client['clid']))
         return clients_dic
 
-    def channellist(self):
-        channels = self._connection.send_command('channellist')
-        return channels
-
     def clientpoke(self, clid, message='Hello!'):
         self._connection.clientpoke(clid, message)
         return
 
     def clientkick(self, clid, message='Get out!'):
         self._connection.clientkick(clid, message=message)
+        return
+
+    def clientban(self, username):  # @todo Change this to IP Address.
+        self._connection.send_command('banadd', keys={'name': username})
+        return
+
+    def clientunban(self, banid):
+        self._connection.send_command('bandel', keys={'banid': banid})
         return
