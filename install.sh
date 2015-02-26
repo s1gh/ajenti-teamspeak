@@ -19,7 +19,7 @@ python setup.py install
 cd ..
 
 # Remove the python-ts3-develop folder
-sudo rm -rf python-ts3-develop
+rm -rf python-ts3-develop
 
 ######################################## 
 #      Install the Ajenti Plugin       #
